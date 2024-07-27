@@ -1,43 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="estilo.css">
-</head>
-<body>
-    <section id="pantalla-inicial">
-        <h1>PASAPALABRA</h1>
-        <button id="comenzar">COMENZAR JUEGO</button>
-    </section>
-    <section id="pantalla-juego">
-        <div class="container">
-            <span id="tiempo">60</span>
-        </div>
-    
-        <div class="contendor-pregunta">
-            <span id="letra-pregunta">Z</span>
-            <h2 id="pregunta">Pregunta...</h2>
-            <input type="text" id="respuesta">
-            <div class="botones">
-                <button id="responder">Responder</button>
-                <button id="pasar">Pasa Palabra</button>
-            </div>
-        </div>
-    </section>
-    <section id="pantalla-final">
-        <h1>Resumen</h1>
-        <h3>Acertadas</h3>
-        <span id="acertadas">
-            10
-        </span>
-        <h3 id="score">40% de acierto</h3>
-        <button id="recomenzar">Jugar de Nuevo</button>
-    </section>
-
-      
-    <script src="script.js"></script>
-</body>
-</html>
+<!DOCTYPE html> 
+<html lang="es"> 
+    <head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Rosco Pasapalabra</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div id="inicio"> 
+        <h1>Pasapalabra</h1>
+             
+            <div id="guia"> 
+                <p>Reglas:</p> <p>Tienes 30 segundos para responder las preguntas.</p> 
+                <p>El usuario tiene solo 3 vidas, si se equivoca 3 veces pierde.</p> </div> 
+            <button id="jugar">Jugar</button> </div>
+        <div id="juego" class="oculto"> 
+            <div id="info-jugador">
+                <p>Tiempo: <span id="tiempo">30</span>s</p> 
+                <p>Vidas: <span id="vidas">3</span></p> </div>
+            <div id="letra-definicion"> <div id="letra"></div>
+                <div id="definicion"></div> <input type="text" id="respuesta" placeholder="Escribe tu respuesta"> <button id="comprobar">Comprobar</button> 
+            </div> </div> <div id="resultado" class="oculto">
+                <h2 id="mensaje-final"></h2> <p>Puntuación: <span id="puntuacion"></span></p>
+                
+                <button id="reiniciar">Reiniciar</button> </div> 
+        <script src="script.js"></script> 
+    </body> </html>
