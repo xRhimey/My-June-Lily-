@@ -6,23 +6,23 @@ const TIEMPO_DEL_JUEGO = 60;
 const bd_juego = [
   {
       id:'A',
-      pregunta:"Empresa reconocida que se dedica a los servidores",
-      respuesta:"amazon"
+      pregunta:"MC de Arcanum",
+      respuesta:"Selena"
   },
   {
     id:'B',
-    pregunta:"Término en inglesque hace referencia a una copia de seguridad",
-    respuesta:"backup"
+    pregunta:"Ex novia de Kingu",
+    respuesta:"Ningal"
   },
   {
     id:'C',
-    pregunta:"Nombre de la memoria que almacena temporalmente los datos de la computadora",
-    respuesta:"cache"
+    pregunta:"Julián Fenichetti pertenece a la historia...",
+    respuesta:"Theodora"
   },
   {
     id:'D',
-    pregunta:"Archivo que controla los periféricos que se conectan a la computadora",
-    respuesta:"driver"
+    pregunta:"Los sucesos en Versalles comienzan en el año...",
+    respuesta:"1665"
   },
   {
     id:'E',
