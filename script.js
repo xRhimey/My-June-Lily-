@@ -26,22 +26,22 @@ const bd_juego = [
   },
   {
     id:'E',
-    pregunta:"Mezclar los datos para protegerlos como medida de seguridad, es decir, convertir texto normal a texto cifrado",
-    respuesta:"encriptar"
+    pregunta:"Lugar de Nacimiento de Wyatt le Roux",
+    respuesta:"Trespia"
   },
   {
     id:'F',
-    pregunta:"Famosa red social cread por Mark Zuckerberg",
-    respuesta:"facebook"
+    pregunta:"Avatar de Shiva",
+    respuesta:"Rita-shiva", "Ritashiva"
   },
   {
     id:'G',
-    pregunta:"Lenguaje de programación crado por Google",
-    respuesta:"go"
+    pregunta:"Lado luminoso de Malbonte",
+    respuesta:"Bont"
   },
   {
     id:'H',
-    pregunta:"lenguaje utilizado para la estructura a las páginas web",
+    pregunta:"",
     respuesta:"html"
   },
   {
