@@ -1,225 +1,31 @@
-//total preguntas del juego
-const TOTAL_PREGUNTAS = 10;
-//tiempo del juego
-const TIEMPO_DEL_JUEGO = 60;
-//estructura para almacenar las preguntas
-const bd_juego = [
-  {
-      id:'A',
-      pregunta:"Empresa reconocida que se dedica a los servidores",
-      respuesta:"amazon"
-  },
-  {
-    id:'B',
-    pregunta:"Término en inglesque hace referencia a una copia de seguridad",
-    respuesta:"backup"
-  },
-  {
-    id:'C',
-    pregunta:"Nombre de la memoria que almacena temporalmente los datos de la computadora",
-    respuesta:"cache"
-  },
-  {
-    id:'D',
-    pregunta:"Archivo que controla los periféricos que se conectan a la computadora",
-    respuesta:"driver"
-  },
-  {
-    id:'E',
-    pregunta:"Mezclar los datos para protegerlos como medida de seguridad, es decir, convertir texto normal a texto cifrado",
-    respuesta:"encriptar"
-  },
-  {
-    id:'F',
-    pregunta:"Famosa red social cread por Mark Zuckerberg",
-    respuesta:"facebook"
-  },
-  {
-    id:'G',
-    pregunta:"Lenguaje de programación crado por Google",
-    respuesta:"go"
-  },
-  {
-    id:'H',
-    pregunta:"lenguaje utilizado para la estructura a las páginas web",
-    respuesta:"html"
-  },
-  {
-    id:'I',
-    pregunta:"Aspecto que presentan los programas tras su ejecución mediante el cual ejercemos la comunicación con éstos",
-    respuesta:"interfaz"
-  },
-  {
-    id:'J',
-    pregunta:"Lenguaje de programación con el cual se diseño el sistema operativo Android",
-    respuesta:"java"
-  },
-]
-
-//preguntas que ya han sido contestadas. Si estan en 0 no han sido contestadas
-var estadoPreguntas = [0,0,0,0,0,0,0,0,0,0]
-var cantidadAcertadas = 0;
-
-//variable que mantiene el num de pregunta acual
-var numPreguntaActual = -1;
-
-// Obtener el elemento del cronómetro
-const timer = document.getElementById("tiempo");
-// Establecer el tiempo inicial en 60 segundos
-let timeLeft = TIEMPO_DEL_JUEGO;
-var countdown;
-
-//boton comenzar
-var comenzar = document.getElementById("comenzar");
-comenzar.addEventListener("click", function(event) {
-  document.getElementById("pantalla-inicial").style.display = "none";
-  document.getElementById("pantalla-juego").style.display = "block";
-  largarTiempo();
-  cargarPregunta();
-});
-
-//Creamos el circúlo con las letras de la A a la Z
-const container = document.querySelector(".container");
-for (let i = 1; i <= TOTAL_PREGUNTAS; i++) {
-  const circle = document.createElement("div");
-  circle.classList.add("circle");
-  circle.textContent = String.fromCharCode(i + 96);
-  circle.id = String.fromCharCode(i + 96).toUpperCase();
-  container.appendChild(circle);
-
-  const angle = ((i - 1) / TOTAL_PREGUNTAS) * Math.PI * 2 - (Math.PI / 2);
-  const x = Math.round(95 + 120 * Math.cos(angle));
-  const y = Math.round(95 + 120 * Math.sin(angle));
-  circle.style.left = `${x}px`;
-  circle.style.top = `${y}px`;
-}
-
-
-//Función que carga la pregunta
-function cargarPregunta(){
-  numPreguntaActual++;
-  //controlo si he llegado al final de las preguntas, para comenzar de nuevo
-  if(numPreguntaActual>=TOTAL_PREGUNTAS){
-    numPreguntaActual=0;
-  }
-
-  if(estadoPreguntas.indexOf(0)>=0){ //Controlo que todavía hallan preguntas por contestar
-    while(estadoPreguntas[numPreguntaActual]==1){
-      numPreguntaActual++;
-      if(numPreguntaActual>=TOTAL_PREGUNTAS){
-        numPreguntaActual=0;
-      }
-    }
+document.addEventListener('DOMContentLoaded', function() {
+  const inicio = document.getElementById('inicio'); 
+  const juego = document.getElementById('juego');
+  const resultado = document.getElementById('resultado'); 
+  const tiempoElem = document.getElementById('tiempo');
+  const vidasElem = document.getElementById('vidas'); 
+  const letraElem = document.getElementById('letra'); 
+  const definicionElem = document.getElementById('definicion'); 
+  const respuestaInput = document.getElementById('respuesta');
+  const comprobarBtn = document.getElementById('comprobar');
+  const mensajeFinalElem = document.getElementById('mensaje-final');
+  const puntuacionElem = document.getElementById('puntuacion'); 
+  const reiniciarBtn = document.getElementById('reiniciar');
+  const jugarBtn = document.getElementById('jugar'); 
   
-    document.getElementById("letra-pregunta").textContent = bd_juego[numPreguntaActual].id
-    document.getElementById("pregunta").textContent = bd_juego[numPreguntaActual].pregunta
-    var letra =  bd_juego[numPreguntaActual].id;
-    document.getElementById(letra).classList.add("pregunta-actual");
-  }
-  else{
-    clearInterval(countdown);
-    mostrarPantallaFinal();
-  }
-
-}
-
-//detecto cada vez que hay un cambio de tecla en el input
-var respuesta = document.getElementById("respuesta");
-respuesta.addEventListener("keyup", function(event) {
-  //detecto si la tecla presionada es ENTER
-  if (event.keyCode === 13) {
-    if(respuesta.value==""){
-      alert("Debe ingresar un valor!!");
-      return;
-    }
-    //obtengo la respuesta ingresada
-    var txtRespuesta = respuesta.value;
-    controlarRespuesta(txtRespuesta.toLowerCase());
-  }
-});
-
-//Función que controla la respuesta
-function controlarRespuesta(txtRespuesta){
-  //controlo si la respuesta es correcta
-  if(txtRespuesta == bd_juego[numPreguntaActual].respuesta){
-    //alert("Respuesta correcta")
-    cantidadAcertadas++;
-
-    //actualizo el estado de las pregunta actual a 1, indicando que ya esta respondida
-    estadoPreguntas[numPreguntaActual] = 1;
-    var letra =  bd_juego[numPreguntaActual].id;
-    document.getElementById(letra).classList.remove("pregunta-actual");
-    document.getElementById(letra).classList.add("bien-respondida");
-
-  }else{
-    //alert("respuesta incorrecta")
-    //actualizo el estado de las pregunta actual a 1, indicando que ya esta respondida
-    estadoPreguntas[numPreguntaActual] = 1;
-    var letra =  bd_juego[numPreguntaActual].id;
-    //quito l clase del estilo de pregunta actual
-    document.getElementById(letra).classList.remove("pregunta-actual");
-    //agrego la clase del estilo de pregunta mal respondida
-    document.getElementById(letra).classList.add("mal-respondida");
-
-  }
-  respuesta.value="";
-  cargarPregunta();
-}
-
-
-//botón para pasar de pregunta sin contestar
-var pasar = document.getElementById("pasar");
-pasar.addEventListener("click", function(event) {
-  var letra =  bd_juego[numPreguntaActual].id;
-  document.getElementById(letra).classList.remove("pregunta-actual");
-
-  cargarPregunta();
-});
-
-
-// Crear la función que se encargará de actualizar el cronómetro cada segundo
-function largarTiempo(){
-  countdown = setInterval(() => {
-    // Restar un segundo al tiempo restante
-    timeLeft--;
+         let tiempo = 30; 
+         let vidas = 3; 
+         let puntuacion = 0;
+         let indicePalabra = 0; 
+         let timer; 
   
-    // Actualizar el texto del cronómetro con el tiempo restante
-    timer.innerText = timeLeft;
-  
-    // Si el tiempo llega a 0, detener el cronómetro
-    if (timeLeft < 0) {
-      clearInterval(countdown);
-      mostrarPantallaFinal();
-    }
-  }, 1000);
-}
-
-//muestro la pantlla final
-function mostrarPantallaFinal(){
-  document.getElementById("acertadas").textContent = cantidadAcertadas;
-  document.getElementById("score").textContent = (cantidadAcertadas*100)/10 + "% de acierto";
-  document.getElementById("pantalla-juego").style.display =  "none";
-  document.getElementById("pantalla-final").style.display =  "block";
-}
-
-//boton para recomenzar el juego
-var recomenzar = document.getElementById("recomenzar");
-recomenzar.addEventListener("click", function(event) {
-  numPreguntaActual = -1;
-  timeLeft = TIEMPO_DEL_JUEGO;
-  timer.innerText = timeLeft;
-  cantidadAcertadas = 0;
-  estadoPreguntas = [0,0,0,0,0,0,0,0,0,0];
-
-  //quito las clases de los circulos
-  var circulos = document.getElementsByClassName("circle");
-  for(i=0;i<circulos.length;i++){
-    circulos[i].classList.remove("bien-respondida");
-    circulos[i].classList.remove("mal-respondida");
-  }
-
-  document.getElementById("pantalla-final").style.display = "none";
-  document.getElementById("pantalla-juego").style.display = "block";
-  largarTiempo();
-  cargarPregunta();
-});
+  const palabras = [ 
+    {letra: 'A', definicion: 'Es una conjunción que conecta dos 
+      ideas opuestas o contradicciones.', respuesta: 'Aunque' },
+      { letra: 'B', definicion: 'Es una preposición que
+        indica posición o condición de inferioridad.', respuesta: 'Bajo' },
+  { letra: 'C', definicion: 'Es una preposición que indica compañía, 
+    asociación o modo de realizar una acción.', respuesta: 'Con' }, 
+{ letra: 'D', definicion: 'Es un sustantivo, un reptil prehistórico que vivió h
+  ace millones de años.', respuesta: 'Dinosaurio' },
+  { letra: 'E', definicion: 'Es un adjetivo que describe algo o alguien que muestra refinamiento, estilo y buen gusto en su apariencia o comportamiento.', respuesta: 'Elegante' }, { letra: 'F', definicion: 'Es una preposición, la parte delantera de algo o de la cara.', respuesta: 'Frente' }, { letra: 'G', definicion: 'Es un verbo, que es mover algo alrededor de un punto central.', respuesta: 'Girar' }, { letra: 'H', definicion: 'Es un sustantivo, la estructura que contiene el embrión de un animal y que se forma en el cuerpo de la hembra.', respuesta: 'Huevo' }, { letra: 'I', definicion: 'Es un verbo que representa formar imágenes o ideas en la mente, especialmente de cosas que no estén presente o que no existan.', respuesta: 'Imaginar' }, { letra: 'J', definicion: 'Es un adjetivo que define algo/persona/animal que tiene poca edad o que no ha alcanzado la madurez completa.', respuesta: 'Joven' }, { letra: 'K', definicion: 'Es un sustantivo el cual consiste en cantar canciones populares sobre una pista de acompañamiento musical, con la letra de la canción mostrada en una pantalla.', respuesta: 'Karaoke' }, { letra: 'L', definicion: 'Es un adverbio que se usa después de un periodo de tiempo o una acción.', respuesta: 'Luego' }, { letra: 'M', definicion: 'Es un sustantivo, que es un insecto volador, con colores bonitos y alas delicadas, se caracteriza por su metamorfosis completa.', respuesta: 'Mariposa' }, { letra: 'N', definicion: 'Un adjetivo el cual representa el color más oscuro.', respuesta: 'Negro' }, { letra: 'Ñ', definicion: 'Un sustantivo que se utiliza para coloquialmente en algunas regiones para referirse a una persona ruda o tosca.', respuesta: 'Ñaco' }, { letra: 'O', definicion: 'Es un verbo que representa en percibir/detectar aromas a través del sentido del olfato.', respuesta: 'Oler' }, { letra: 'P', definicion: 'Es un verbo que se utiliza para representar cuando una persona está procesando información en la mente, formar opiniones o juicios, o idear planes o estrategias.', respuesta: 'Pensar' }, { letra: 'Q', definicion: 'Es un sustantivo el cual es usado para identificar la ciencia que estudia la composición, estructura y propiedades de la materia.', respuesta: 'Química' }, { letra: 'R', definicion: 'Es un verbo que expresa una acción, lo cual es que ocurre o se realiza a una gran velocidad.', respuesta: 'Rápido' }, { letra: 'S', definicion: 'Es un sustantivo que se refiere a una estrella que está en el centro del sistema solar y que proporciona calor y luz a la Tierra.', respuesta: 'Sol' }, { letra: 'T', definicion: 'Es un sustantivo que define la calma, sin perturbaciones ni agitaciones.', respuesta: 'Tranquilo' }, { letra: 'U', definicion: 'Es un verbo que se usa para emplear algo para un propósito específico.', respuesta: 'Usar' }, { letra: 'V', definicion: 'Es un sustantivo, el cual es un mamífero doméstico de gran tamaño, además que produce leche y carne.', respuesta: 'Vaca' }, { letra: 'W', definicion: 'sustantivo que indica una bebida alcohólica destilada.', respuesta: 'Whisky' }, { letra: 'X', definicion: 'Es un sustantivo que define a una persona que siente hostilidad o aversión hacia los extranjeros o hacia el extranjero.', respuesta: 'Xenófobo' }, { letra: 'Y', definicion: 'Es un adverbio que se usa para identificar a un momento pasado o a un punto en el tiempo que indica que algo ya ha ocurrido.', respuesta: 'Ya' }, { letra: 'Z', definicion: 'Es un verbo que se utiliza para decir que algo/alguien se sumergió rápidamente en un líquido, con todo el cuerpo o una parte de él.', respuesta: 'Zambullir' } ]; function actualizarInterfaz() { letraElem.textContent = palabras[indicePalabra].letra; definicionElem.textContent = palabras[indicePalabra].definicion; respuestaInput.value = ''; respuestaInput.focus(); } function iniciarJuego() { inicio.classList.add('oculto'); juego.classList.remove('oculto'); reiniciarJuego(); // Llamamos a esta función para reiniciar el juego } function reiniciarJuego() { tiempo = 30; vidas = 3; puntuacion = 0; indicePalabra = 0; tiempoElem.textContent = tiempo; vidasElem.textContent = vidas; actualizarInterfaz(); clearInterval(timer); timer = setInterval(actualizarTiempo, 1000); } function actualizarTiempo() { tiempo--; tiempoElem.textContent = tiempo; if (tiempo <= 0) { restarVida(); } } function finalizarJuego() { clearInterval(timer); juego.classList.add('oculto'); resultado.classList.remove('oculto'); mensajeFinalElem.textContent = vidas > 0 ? '¡Felicidades! Has completado el juego.' : 'Juego terminado. Has perdido todas tus vidas.'; puntuacionElem.textContent = puntuacion; } function restarVida() { vidas--; vidasElem.textContent = vidas; if (vidas <= 0) { finalizarJuego(); } else { mostrarPantallaTemporal('pantalla-roja'); siguientePalabra(); } } function sumarPunto() { puntuacion++; mostrarPantallaTemporal('pantalla-verde'); siguientePalabra(); } function mostrarPantallaTemporal(clase) { juego.classList.add(clase); setTimeout(() => { juego.classList.remove(clase); }, 500); } function siguientePalabra() { indicePalabra++; if (indicePalabra >= palabras.length) { finalizarJuego(); } else { reiniciarTiempo(); // Reiniciamos el tiempo en cada nueva ronda actualizarInterfaz(); } } function reiniciarTiempo() { tiempo = 30; tiempoElem.textContent = tiempo; } function comprobarRespuesta() { const respuesta = respuestaInput.value.trim().toLowerCase(); if (respuesta === palabras[indicePalabra].respuesta.toLowerCase()) { sumarPunto(); } else { restarVida(); } } jugarBtn.addEventListener('click', iniciarJuego); comprobarBtn.addEventListener('click', comprobarRespuesta); respuestaInput.addEventListener('keyup', function(event) { if (event.key === 'Enter') { comprobarRespuesta(); } }); reiniciarBtn.addEventListener('click', function() { resultado.classList.add('oculto'); inicio.classList.remove('oculto'); }); });
