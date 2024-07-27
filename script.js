@@ -32,7 +32,7 @@ const bd_juego = [
   {
     id:'F',
     pregunta:"Avatar de Shiva",
-    respuesta:"Rita-shiva", "Ritashiva"
+    respuesta:"Rita-shiva"
   },
   {
     id:'G',
@@ -42,7 +42,7 @@ const bd_juego = [
   {
     id:'H',
     pregunta:"Eva es un shes...",
-    respuesta:"Shesmu", "mu"
+    respuesta:"Shesmu"
   },
   {
     id:'I',
