@@ -41,18 +41,18 @@ const bd_juego = [
   },
   {
     id:'H',
-    pregunta:"",
-    respuesta:"html"
+    pregunta:"Eva es un shes...",
+    respuesta:"Shesmu", "mu"
   },
   {
     id:'I',
-    pregunta:"Aspecto que presentan los programas tras su ejecución mediante el cual ejercemos la comunicación con éstos",
-    respuesta:"interfaz"
+    pregunta:"Familia Brahmánica en KCOD",
+    respuesta:"Doobay", "Dubey"
   },
   {
     id:'J',
-    pregunta:"Lenguaje de programación con el cual se diseño el sistema operativo Android",
-    respuesta:"java"
+    pregunta:"Edad de Onyx (W:Time Catcher)",
+    respuesta:"27"
   },
 ]
 
